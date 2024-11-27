@@ -23,7 +23,7 @@ export { Group as SelectGroup } from "@radix-ui/react-select"
 
 export interface SelectProps extends Props {
 	contentProps?: React.ComponentPropsWithoutRef<typeof Content>
-	triggerProps?: { placeholder?: string } & React.ComponentPropsWithoutRef<typeof Trigger>
+	triggerProps?: React.ComponentPropsWithoutRef<typeof Trigger> & { placeholder?: string }
 }
 
 export const Select = ({ children, contentProps, triggerProps, ...props }: SelectProps) => (

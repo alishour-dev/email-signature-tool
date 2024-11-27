@@ -1,14 +1,22 @@
-//#region Import 
-import { Input, type InputProps } from "../ui/input"
-
-import {  Select, SelectItem } from "../ui/select"
+import type { Company, Data, Location, SignatureStyle } from "@/types"
 
 import { companies } from "@/constants/companies"
 import { locations } from "@/constants/locations"
-import type { Company, Data, Location, SignatureStyle } from "@/types"
 import { trim } from "@/utils/trim"
+import {
+	FaBuilding,
+	FaEnvelope,
+	FaLinkedin,
+	FaMapMarkerAlt,
+	FaMicrosoft,
+	FaPhone,
+	FaSkype,
+	FaUserTie
+} from "react-icons/fa"
 
-import { FaLinkedin, FaMicrosoft, FaSkype, FaPhone, FaUserTie, FaEnvelope, FaBuilding, FaMapMarkerAlt } from "react-icons/fa"
+//#region Import
+import { Input, type InputProps } from "../ui/input"
+import { Select, SelectItem } from "../ui/select"
 //#endregion
 
 type InputsSidebarType = {
@@ -31,11 +39,11 @@ export const InputsSidebar = ({ data, setData }: InputsSidebarType) => {
 			<div className='flex w-full flex-col border-b border-dashed border-primary-200 px-4 py-5'>
 				<h2 className='mb-2 text-base text-primary-900'>1. Pick a company</h2>
 				<Select
-					value={data?.company || undefined}
 					onValueChange={(company: keyof Company) => setData((prev) => ({ ...prev, company }))}
-					triggerProps={{ placeholder: "Select company", children: <FaBuilding /> }}>
+					triggerProps={{ children: <FaBuilding />, placeholder: "Select company" }}
+					value={data?.company || undefined}>
 					{Object.keys(companies)?.map((v, idx) => (
-						<SelectItem value={v} key={v + "-" + idx}>
+						<SelectItem key={v + "-" + idx} value={v}>
 							{v}
 						</SelectItem>
 					))}
@@ -45,11 +53,11 @@ export const InputsSidebar = ({ data, setData }: InputsSidebarType) => {
 			<div className='flex w-full flex-col border-b border-dashed border-primary-200 px-4 py-5'>
 				<h2 className='mb-2 text-base text-primary-900'>2. Pick a signature style</h2>
 				<Select
-					value={data?.style || undefined}
 					onValueChange={(style: SignatureStyle) => setData((prev) => ({ ...prev, style }))}
-					triggerProps={{ placeholder: "Select a style", children: <FaUserTie /> }}>
+					triggerProps={{ children: <FaUserTie />, placeholder: "Select a style" }}
+					value={data?.style || undefined}>
 					{["First Style", "Second Style"]?.map((v, idx) => (
-						<SelectItem value={v} key={v + "-" + idx}>
+						<SelectItem key={v + "-" + idx} value={v}>
 							{v}
 						</SelectItem>
 					))}
@@ -65,19 +73,19 @@ export const InputsSidebar = ({ data, setData }: InputsSidebarType) => {
 						onChange={onChange}
 						// onKeyDown={onKeyDown}
 						{...props}
-						value={data[props?.name as keyof Data] ?? ""}
-						required
-						minLength={2}
 						className='!w-full !max-w-full'
+						minLength={2}
+						required
+						value={data[props?.name as keyof Data] ?? ""}
 					/>
 				))}
 
 				<Select
-					value={data?.location || undefined}
 					onValueChange={(location: keyof Location) => setData((prev) => ({ ...prev, location }))}
-					triggerProps={{ placeholder: "Select Location", children: <FaMapMarkerAlt /> }}>
+					triggerProps={{ children: <FaMapMarkerAlt />, placeholder: "Select Location" }}
+					value={data?.location || undefined}>
 					{Object.keys(locations)?.map((v, idx) => (
-						<SelectItem value={v} key={v + "-" + idx}>
+						<SelectItem key={v + "-" + idx} value={v}>
 							{v}
 						</SelectItem>
 					))}
@@ -87,72 +95,71 @@ export const InputsSidebar = ({ data, setData }: InputsSidebarType) => {
 	)
 }
 
-const inputs: (Pick<InputProps, "type" | "leftIcon" | "placeholder"> & {
-	name: keyof Omit<Data, "location" | "company">
+const inputs: (Pick<InputProps, "leftIcon" | "placeholder" | "type"> & {
+	name: keyof Omit<Data, "company" | "location">
 })[] = [
-	{ leftIcon: <FaUserTie />, name: "name", type: "text", placeholder: "Full name" },
+	{ leftIcon: <FaUserTie />, name: "name", placeholder: "Full name", type: "text" },
 	{
 		leftIcon: <FaBuilding />,
 		name: "position",
-		type: "text",
 		placeholder: "Current position",
+		type: "text"
 	},
 	{
 		leftIcon: <FaLinkedin />,
 		name: "linkedIn",
-		type: "url",
 		placeholder: "LinkedIn Profile URL (optional)",
+		type: "url"
 	},
 	{
 		leftIcon: <FaSkype />,
 		name: "skype",
-		type: "url",
 		placeholder: "Skype profile URL (optional)",
+		type: "url"
 	},
 	{
 		leftIcon: <FaMicrosoft />,
 		name: "teams",
-		type: "url",
 		placeholder: "Teams profile URL (optional)",
+		type: "url"
 	},
 	{
 		leftIcon: <FaEnvelope />,
 		name: "email",
-		type: "email",
 		placeholder: "email address",
+		type: "email"
 	},
-	{ leftIcon: <FaPhone />, name: "tel", type: "number", placeholder: "Your mobile phone number" },
+	{ leftIcon: <FaPhone />, name: "tel", placeholder: "Your mobile phone number", type: "number" }
 ]
 
-
 // const onKeyDown = (e: React.KeyboardEvent): void => {
-	// 	const { key }: Partial<React.KeyboardEvent> = e
-	// 	const target = e.target as HTMLElement
+// 	const { key }: Partial<React.KeyboardEvent> = e
+// 	const target = e.target as HTMLElement
 
-	// 	const inputs: any = Object.values((target as any)?.form)?.filter(
-	// 		(i: any) => ["text", "email", "tel"]?.includes(i?.type) || i?.name === "select"
-	// 	)
+// 	const inputs: any = Object.values((target as any)?.form)?.filter(
+// 		(i: any) => ["text", "email", "tel"]?.includes(i?.type) || i?.name === "select"
+// 	)
 
-	// 	const currentIdx = inputs?.findIndex((node: HTMLInputElement) => node?.outerHTML === target?.outerHTML)
+// 	const currentIdx = inputs?.findIndex((node: HTMLInputElement) => node?.outerHTML === target?.outerHTML)
 
-	// 	const nextInput: HTMLInputElement = inputs?.[currentIdx + 1]
-	// 	const prevInput: HTMLInputElement = inputs?.[currentIdx - 1]
+// 	const nextInput: HTMLInputElement = inputs?.[currentIdx + 1]
+// 	const prevInput: HTMLInputElement = inputs?.[currentIdx - 1]
 
-	// 	if (key === "Backspace" && currentIdx === 5 && data?.tel?.length === 1) {
-	// 		setData((prev) => ({ ...prev, tel: "" }))
-	// 	}
+// 	if (key === "Backspace" && currentIdx === 5 && data?.tel?.length === 1) {
+// 		setData((prev) => ({ ...prev, tel: "" }))
+// 	}
 
-	// 	if (["ArrowDown", "Enter", "tab"]?.includes(key)) {
-	// 		if (nextInput) {
-	// 			e.preventDefault()
-	// 			nextInput.focus()
-	// 		}
-	// 	}
+// 	if (["ArrowDown", "Enter", "tab"]?.includes(key)) {
+// 		if (nextInput) {
+// 			e.preventDefault()
+// 			nextInput.focus()
+// 		}
+// 	}
 
-	// 	if (key === "ArrowUp") {
-	// 		if (prevInput) {
-	// 			e.preventDefault()
-	// 			prevInput.focus()
-	// 		}
-	// 	}
-	// }
+// 	if (key === "ArrowUp") {
+// 		if (prevInput) {
+// 			e.preventDefault()
+// 			prevInput.focus()
+// 		}
+// 	}
+// }
