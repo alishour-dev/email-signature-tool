@@ -39,7 +39,6 @@ To get started with the Email Signature Tool, follow these steps:
 To run the application in development mode, use the following command:
 
 ```bash
-pnpm i
 pnpm dev
 ```
 
