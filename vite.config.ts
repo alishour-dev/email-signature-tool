@@ -9,9 +9,6 @@ export default defineConfig({
 	build: {
 		outDir: "dist",
 		rollupOptions: {
-			input: {
-				main: "src/main.tsx",
-			},
 			output: {
 				manualChunks: {
 					dependencies: ["react", "react-dom"],
@@ -30,5 +27,5 @@ export default defineConfig({
 		include: ["react", "react-dom"],
 	},
 	base: "/",
-	plugins: [react(), tsconfigPaths({ ignoreConfigErrors: true }), visualizer({ open: true })],
+	plugins: [react(), tsconfigPaths({ ignoreConfigErrors: true }), visualizer({ open: false })],
 } as UserConfig)
